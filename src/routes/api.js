@@ -24,7 +24,7 @@ router.post("/login", UsersController.Login)
 router.get("/profile-details", AuthVerifyMiddleware,UsersController.ProfileDetails)
 router.get("/email-verify/:email", UsersController.EmailVerify)
 router.get("/otp-verify/:email/:otp",  UsersController.OtpVerify)
-router.get("/reset-password",  UsersController.ResetPassword)
+router.post("/reset-password",  UsersController.ResetPassword)
 router.post("/update-profile", AuthVerifyMiddleware, UsersController.UpdateUser)
 
 //Brand start
