@@ -9,6 +9,7 @@ const ProductModel = require("../models/Product/ProductModel")
 const DeleteService = require("../Services/Common/DeleteService")
 const AssociateVerificationService = require("../Services/Common/AssociateVerificationService")
 const ExpenseTypeModel = require("../models/Expense/ExpenseTypeModel")
+const ExpenseModel = require("../models/Expense/ExpenseModel")
 
 exports.CreateExpenseType = async(req,res)=>{
     let result = await CreateService(req,ExpenseTypeModel)
@@ -37,14 +38,12 @@ const ObjectId = mongoose.Types.ObjectId
 exports.ExpenseTypeDelete = async(req,res)=>{
   let deleteId = req.params.id
   //check mongoose id validation
-  const Id = ObjectId.isValid(deleteId) ? new ObjectId(deleteId) : null;
-  if (!Id){
-    return res.status(200).json({status:'fail' , data:'Invalid Brand Id'})
-  }
+  const ObjectId= mongoose.Types.ObjectId
+ 
   //check association before deleting
-  let checkAssociation = await AssociateVerificationService({brandId:Id},ProductModel )
+  let checkAssociation = await AssociateVerificationService({expenseTypeId: new ObjectId(deleteId)},ExpenseModel )
   if (checkAssociation){
-    return res.status(200).json({status:'fail',data:'Brand is associated with products'})
+    return res.status(200).json({status:'associate',data:'Expense has Expense'})
   }
   else{
     let result = await DeleteService (req,ExpenseTypeModel)
