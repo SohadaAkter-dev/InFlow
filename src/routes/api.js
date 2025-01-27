@@ -50,6 +50,7 @@ router.post("/customer-details/:id", AuthVerifyMiddleware, CustomerController.Cu
 router.post("/customer-update/:id", AuthVerifyMiddleware, CustomerController.UpdateCunstomer)
 router.get("/customer-dropdown", AuthVerifyMiddleware, CustomerController.CustomerDropDown)
 router.get("/customer-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddleware,  CustomerController.CustomerList)
+router.get("/customer-delte/:id", AuthVerifyMiddleware, CustomerController.DeleteCustomer)
 
 //Supplier start
 router.post("/create-supplier", AuthVerifyMiddleware, SupplierController.CreateSupplier)
