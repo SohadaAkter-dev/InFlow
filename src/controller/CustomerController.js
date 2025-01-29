@@ -32,8 +32,8 @@ exports.CustomerList = async(req,res)=>{
     res.status(200).json(result)
 } 
 exports.DeleteCustomer = async (req,res)=>{
-    let deleteId = req.params.objectId;
-    let objectId = mongoose.Types.objectId;
+    let deleteId = req.params.ObjectId;
+    let objectId = mongoose.Types.ObjectId;
     let checkAssociation = await AssociateVerificationService({customerId: new objectId(deleteId)},SalesModel);
     if(checkAssociation){
         return res.status(200).json({status:"associate",date:"Customer has sale"});
