@@ -46,7 +46,7 @@ router.get("/category-delete/:id", AuthVerifyMiddleware, CategoryController.Cate
 
 //Customer start
 router.post("/create-customer", AuthVerifyMiddleware, CustomerController.CreateCustomer)
-router.post("/customer-details/:id", AuthVerifyMiddleware, CustomerController.CustomerDetailsById)
+router.get("/customer-details/:id", AuthVerifyMiddleware, CustomerController.CustomerDetailsById)
 router.post("/customer-update/:id", AuthVerifyMiddleware, CustomerController.UpdateCunstomer)
 router.get("/customer-dropdown", AuthVerifyMiddleware, CustomerController.CustomerDropDown)
 router.get("/customer-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddleware,  CustomerController.CustomerList)
