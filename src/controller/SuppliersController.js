@@ -27,3 +27,15 @@ exports.SupplierList = async(req,res)=>{
     let result = await ListService(req,SuppliersModel,array)
     res.status(200).json(result)
 } 
+exports.DeleteSupplier = async (req,res)=>{
+    let deleteId = req.params.ObjectId;
+    let objectId = mongoose.Types.ObjectId;
+    let checkAssociation = await AssociateVerificationService({supplierId: new objectId(deleteId)},SalesModel);
+    if(checkAssociation){
+        return res.status(200).json({status:"associate",date:"Supplier has sale"});
+    }
+    else{
+        let result = await DeleteService(req,CustomerModel);
+        res.status(200).json(result);
+    }
+}
