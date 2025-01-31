@@ -3,6 +3,7 @@ const DetailsServiceById = require("../Services/Common/DetailsServiceById")
 const DropDownService = require("../Services/Common/DropDownService")
 const ListService = require("../Services/Common/ListService")
 const UpdateService = require("../Services/Common/UpdateService") 
+const PurchaseModel = require("../models/Purchase/PurchaseModel")
 const SuppliersModel = require("../models/Suppliers/SuppliersModel")
 
 exports.CreateSupplier = async(req,res)=>{
@@ -30,12 +31,12 @@ exports.SupplierList = async(req,res)=>{
 exports.DeleteSupplier = async (req,res)=>{
     let deleteId = req.params.ObjectId;
     let objectId = mongoose.Types.ObjectId;
-    let checkAssociation = await AssociateVerificationService({supplierId: new objectId(deleteId)},SalesModel);
+    let checkAssociation = await AssociateVerificationService({supplierId: new objectId(deleteId)},PurchaseModel);
     if(checkAssociation){
-        return res.status(200).json({status:"associate",date:"Supplier has sale"});
+        return res.status(200).json({status:"associate",date:"Supplier has purchases"});
     }
     else{
-        let result = await DeleteService(req,CustomerModel);
+        let result = await DeleteService(req,SuppliersModel);
         res.status(200).json(result);
     }
 }
