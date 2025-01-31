@@ -1,4 +1,4 @@
-const { Mongoose } = require("mongoose")
+const { default: mongoose } = require("mongoose")
 const CreateService = require("../Services/Common/CreateService")
 const DetailsServiceById = require("../Services/Common/DetailsServiceById")
 const DropDownService = require("../Services/Common/DropDownService")
@@ -7,6 +7,7 @@ const UpdateService = require("../Services/Common/UpdateService")
 const PurchaseModel = require("../models/Purchase/PurchaseModel")
 const SuppliersModel = require("../models/Suppliers/SuppliersModel")
 const DeleteService = require("../Services/Common/DeleteService")
+const AssociateVerificationService = require("../Services/Common/AssociateVerificationService")
 
 exports.CreateSupplier = async(req,res)=>{
     let result = await CreateService(req,SuppliersModel)
@@ -32,7 +33,7 @@ exports.SupplierList = async(req,res)=>{
 } 
 exports.DeleteSupplier = async (req,res)=>{
     let deleteId = req.params.ObjectId;
-    let objectId = Mongoose.Types.ObjectId;
+    let objectId = mongoose.Types.ObjectId;
     let checkAssociation = await AssociateVerificationService({supplierId: new objectId(deleteId)},PurchaseModel);
     if(checkAssociation){
         return res.status(200).json({status:"associate",date:"Supplier has purchases"});
