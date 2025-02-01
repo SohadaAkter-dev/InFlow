@@ -73,6 +73,7 @@ router.get("/expense-type-details/:id", AuthVerifyMiddleware,ExpenseTypeControll
 router.post("/expense-type-update/:id", AuthVerifyMiddleware,ExpenseTypeController.UpdateExpenseType)
 router.get("/expense-type-dropdown", AuthVerifyMiddleware,ExpenseTypeController.ExpenseTypeDropDown)
 router.get("/expense-type-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddleware, ExpenseTypeController.ExpenseTypeList)
+router.get("/expense-type-delete/:id", AuthVerifyMiddleware, ExpenseTypeController.ExpenseTypeDelete)
 
 // Expense start
 router.post("/create-expense", AuthVerifyMiddleware,ExpenseController.CreateExpense)

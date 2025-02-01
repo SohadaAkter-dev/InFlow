@@ -33,8 +33,7 @@ exports.ExpenseTypeList = async(req,res)=>{
     let result = await ListService(req,ExpenseTypeModel,array)
     res.status(200).json(result)
 } 
-
-const ObjectId = mongoose.Types.ObjectId
+ 
 exports.ExpenseTypeDelete = async(req,res)=>{
   let deleteId = req.params.id
   //check mongoose id validation
