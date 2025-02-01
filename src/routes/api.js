@@ -69,7 +69,7 @@ router.get("/product-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddlewar
 
 // Expense Type start
 router.post("/create-expense-type", AuthVerifyMiddleware,ExpenseTypeController.CreateExpenseType)
-router.post("/expense-type-details/:id", AuthVerifyMiddleware,ExpenseTypeController.ExpenseTypeDetailsById)
+router.get("/expense-type-details/:id", AuthVerifyMiddleware,ExpenseTypeController.ExpenseTypeDetailsById)
 router.post("/expense-type-update/:id", AuthVerifyMiddleware,ExpenseTypeController.UpdateExpenseType)
 router.get("/expense-type-dropdown", AuthVerifyMiddleware,ExpenseTypeController.ExpenseTypeDropDown)
 router.get("/expense-type-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddleware, ExpenseTypeController.ExpenseTypeList)
