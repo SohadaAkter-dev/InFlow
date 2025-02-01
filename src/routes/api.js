@@ -77,7 +77,7 @@ router.get("/expense-type-delete/:id", AuthVerifyMiddleware, ExpenseTypeControll
 
 // Expense start
 router.post("/create-expense", AuthVerifyMiddleware,ExpenseController.CreateExpense)
-router.post("/expense-details/:id", AuthVerifyMiddleware,ExpenseController.ExpenseDetailsById)
+router.get("/expense-details/:id", AuthVerifyMiddleware,ExpenseController.ExpenseDetailsById)
 router.post("/expense-update/:id", AuthVerifyMiddleware,ExpenseController.UpdateExpense) 
 router.get("/expense-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddleware, ExpenseController.ExpenseList)
 router.get("/expense-delete/:id", AuthVerifyMiddleware,ExpenseController.DeleteExpense)
