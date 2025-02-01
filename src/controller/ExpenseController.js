@@ -27,6 +27,10 @@ exports.DeleteExpense = async(req,res)=>{
     let result = await  DeleteService(req,ExpenseModel)
     res.status(200).json(result)
 }
+exports.ExpenseDropDown = async(req,res)=>{
+    let result = await DropDownService(req,ExpenseModel,{_id:1, name:1})
+    res.status(200).json(result)
+} 
 exports.ExpenseList = async(req,res)=>{
     let searchRegex = {$regex:req.params.searchtext,$options:"i"};
     let JoinStageOne={$lookup:{from:'expensetypes',localField:'expenseTypeId',foreignField:'_id',as:'Type'}}; 

@@ -81,6 +81,7 @@ router.post("/expense-details/:id", AuthVerifyMiddleware,ExpenseController.Expen
 router.post("/expense-update/:id", AuthVerifyMiddleware,ExpenseController.UpdateExpense) 
 router.get("/expense-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddleware, ExpenseController.ExpenseList)
 router.get("/expense-delete/:id", AuthVerifyMiddleware,ExpenseController.DeleteExpense)
+router.get("/expense-dropdown", AuthVerifyMiddleware,ExpenseController.ExpenseDropDown)
 
 // purchase start
 router.post("/create-purchase", AuthVerifyMiddleware,PurchaseController.CreatePurchase)  
