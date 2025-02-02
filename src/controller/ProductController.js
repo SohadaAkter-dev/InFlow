@@ -7,6 +7,12 @@ const UpdateService = require("../Services/Common/UpdateService");
 const DropDownService = require("../Services/Common/DropDownService");
 const ListService = require("../Services/Common/ListService");
 const TwoJoinService = require("../Services/Common/TwoJoinService");
+const { Mongoose } = require("mongoose");
+const AssociateVerificationService = require("../Services/Common/AssociateVerificationService");
+const ReturnProductModel = require("../models/Return/ReturnProductsModel");
+const PurchaseProductModel = require("../models/Purchase/PurchaseProductModel");
+const SalesProductModel = require("../models/Sales/SalesProductsModel");
+const DeleteService = require("../Services/Common/DeleteService");
 //Multer configuarartion
 
 const storage = multer.diskStorage({
@@ -95,34 +101,33 @@ exports.UpdateProduct = async(req,res)=>{
         }
 
         //Delete old images from cloudinary
-        if (product.images && product.images.length>0){
-         const deletePromises = product.images.map(imageURL=>{
-            //Extract public_id from image URL
-            const publicId = imageURL.split('/').pop().split('.')[0];
-            return cloudinary.uploader.destroy(`productImages/${publicId}`);
-         });
-         await Promise.all(deletePromises);
+        if(images.length>0){
+            if(product.images&& product.images.length>0){
+                const deletePromises = product.images.map(imageUrl =>{
+                const publicId = imageUrl.split('/').pop().split('.')[0];
+                return cloudinary.uploader.destroy(`productImages/${publicId}`);
+                });
+                await Promise.all(deletePromises);
+            }
+            const promises = images.map(imagePath=>{
+                return cloudinary.uploader.upload(imagePath,{
+                folder: "ProductImages"//specify the folder name
+            });
+            });
+            const uploadImages = await Promise.all(promises);
+            product.images = uploadImages.map(img => img.secure_url)
         }
-
+        product.name = body.name;
+        product.unit = body.unit;
+        product.details = body.details;
+        product.categoryId = body.categoryId;
+        product.brandId = body.brandId;
         //upload new images to cloudinary
-        const promises = images.map(imagePath=>{
-            return cloudinary.uploader.upload(imagePath,{
-            folder: "ProductImages"//specify the folder name
-        });
-        });
-        const uploadImages = await Promise.all(promises);
-        //update product with new image URLS
-        const updateData = {  
-        name : body.name,
-        unit : body.unit,
-        details : body.details,
-        images : uploadImages.map(img=> img.secure_url),//store image URLS in an array
-        categoryId : body.categoryId,
-        brandId : body.brandId,
-        };
-        await ProductModel.updateOne({_id:id,userEmail:userEmail},updateData);
+        
+ 
+        await product.save()
 
-        return res.status(200).json({status:'success',data:updateData});
+        return res.status(200).json({status:'success',data:product});
         });
     }
     catch(error){
@@ -141,4 +146,47 @@ exports.ProductList = async(req,res)=>{
     let result = await TwoJoinService(req,ProductModel,array,JoinStageOne,JoinStageTwo)
     res.status(200).json(result)
 } 
+
+exports.DeleteProductById = async(req,res)=>{
+    try{
+    let deleteId = req.params.id;
+    const ObjectId = Mongoose.Types.ObjectId;
+    let ReturnAssociationCheck = await AssociateVerificationService ({productId: new ObjectId(deleteId)},ReturnProductModel)
+    let PurchaseAssociationCheck = await AssociateVerificationService ({productId: new ObjectId(deleteId)},PurchaseProductModel)
+    let SaleAssociationCheck = await AssociateVerificationService ({productId: new ObjectId(deleteId)},SalesProductModel)
+
+    if(ReturnAssociationCheck){
+        return res.status(200).json({status:"associate", data:"Product has return"})
+    }
+    else if(PurchaseAssociationCheck){
+        return res.status(200).json({status:"associate", data:"Product has purchase"})
+    }
+    else if(SaleAssociationCheck){
+        return res.status(200).json({status:"associate", data:"Product has Sales"})
+    }
+    else{
+        // find the product
+        let product = await ProductModel.findById(deleteId);
+        if(!product){
+            return res.status(400).json({status:"fail",message:"Product not found"})
+        }
+
+        // Delete images from cloudinary
+        if(product.images && product.images.length>0){
+            const deletePromises = product.images.map(imageUrl=>{
+                const publicId= imageUrl.split('/').pop().split('.')[0];
+                return cloudinary.uploader.destroy(`productImages/${publicId}`)
+            })
+            await Promise.all(deletePromises)
+        }
+        // delete the product from the database
+        let result = await DeleteService(req,ProductModel);
+        return res.status(200).json(result);
+    }
+}
+    catch(error){
+        res.status(500).json({status:"fail",message:error.message})
+    }
+} 
+
  

@@ -66,6 +66,7 @@ router.get("/product-details/:id", AuthVerifyMiddleware,ProductController.Produc
 router.post("/product-update/:id", AuthVerifyMiddleware,ProductController.UpdateProduct)
 router.get("/product-dropdown", AuthVerifyMiddleware,ProductController.ProductDropDown)
 router.get("/product-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddleware, ProductController.ProductList)
+router.get("/product-delete/:id", AuthVerifyMiddleware, ProductController.DeleteProductById)
 
 // Expense Type start
 router.post("/create-expense-type", AuthVerifyMiddleware,ExpenseTypeController.CreateExpenseType)
