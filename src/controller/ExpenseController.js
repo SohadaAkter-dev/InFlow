@@ -33,8 +33,8 @@ exports.ExpenseDropDown = async(req,res)=>{
 } 
 exports.ExpenseList = async(req,res)=>{
     let searchRegex = {$regex:req.params.searchtext,$options:"i"};
-    let JoinStageOne={$lookup:{from:'expensetypes',localField:'expenseTypeId',foreignField:'_id',as:'Type'}}; 
-    let array = [{expenseTypeId:searchRegex},{amount:searchRegex},{description:searchRegex},{'Type.name':searchRegex}]
+    let JoinStageOne={$lookup:{from:'expensetypes',localField:'expenseTypeId',foreignField:'_id',as:'expenses'}}; 
+    let array = [{expenseTypeId:searchRegex},{amount:searchRegex},{description:searchRegex},{'expenses.name':searchRegex}]
     let result = await OneJoinService(req,ExpenseModel,array,JoinStageOne)
     res.status(200).json(result)
 } 

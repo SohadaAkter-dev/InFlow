@@ -29,7 +29,7 @@ router.post("/update-profile", AuthVerifyMiddleware, UsersController.UpdateUser)
 
 //Brand start
 router.post("/create-brand", AuthVerifyMiddleware, BrandsController.CreateBrand)
-router.post("/brand-details/:id", AuthVerifyMiddleware, BrandsController.BrandDetailsById)
+router.get("/brand-details/:id", AuthVerifyMiddleware, BrandsController.BrandDetailsById)
 router.post("/brand-update/:id", AuthVerifyMiddleware, BrandsController.UpdateBrand)
 router.get("/brand-dropdown", AuthVerifyMiddleware, BrandsController.BrandDropDown)
 router.get("/brand-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddleware, BrandsController.BrandList)
@@ -37,7 +37,7 @@ router.get("/brand-delete/:id", AuthVerifyMiddleware, BrandsController.BrandDele
 
 //Category start
 router.post("/create-category", AuthVerifyMiddleware, CategoryController.CreateCategory)
-router.post("/category-details/:id", AuthVerifyMiddleware, CategoryController.CategoryDetailsById)
+router.get("/category-details/:id", AuthVerifyMiddleware, CategoryController.CategoryDetailsById)
 router.post("/category-update/:id", AuthVerifyMiddleware, CategoryController.UpdateCategory)
 router.get("/category-dropdown", AuthVerifyMiddleware, CategoryController.CategoryDropDown)
 router.get("/category-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddleware,  CategoryController.CategoryList)
@@ -62,7 +62,7 @@ router.get("/supplier-delete/:id", AuthVerifyMiddleware, SupplierController.Dele
 
 //product start
 router.post("/create-product", AuthVerifyMiddleware,ProductController.CreateProduct)
-router.post("/product-details/:id", AuthVerifyMiddleware,ProductController.ProductDetailsById)
+router.get("/product-details/:id", AuthVerifyMiddleware,ProductController.ProductDetailsById)
 router.post("/product-update/:id", AuthVerifyMiddleware,ProductController.UpdateProduct)
 router.get("/product-dropdown", AuthVerifyMiddleware,ProductController.ProductDropDown)
 router.get("/product-list/:pageNumber/:perPage/:searchtext", AuthVerifyMiddleware, ProductController.ProductList)
